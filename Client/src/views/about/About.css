@@ -1,0 +1,65 @@
+/* Estilos para el contenedor principal */
+.about-container {
+  text-align: center;
+  padding: 20px;
+  background-image: url('C:\Users\BANGHO\OneDrive\Escritorio\PROJECTS\RickandMorty\Client\src\assets\backgrounds\rick-sanchez-rick-and-morty-thumb.jpg'); /* Reemplaza 'ruta_de_tu_fondo_de_pantalla.jpg' con la ruta correcta de tu fondo de pantalla */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Estilos para el texto con fondo semitransparente */
+.text-with-background {
+  background-color: rgba(0, 0, 0, 0.5); /* Color de fondo semitransparente (ajusta el valor "0.5" según tu preferencia) */
+  padding: 10px; /* Espaciado alrededor del texto */
+}
+
+/* Estilos para la imagen de perfil */
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 20px auto;
+  display: block;
+  border: 5px solid #00ccff; /* Un color azul similar al de Rick and Morty */
+}
+
+/* Estilos para el nombre */
+h1 {
+  font-size: 36px;
+  margin: 0;
+  font-family: 'Coda', cursive; /* Una fuente estilo cómic */
+  color: #ff9900; /* Un color amarillo similar al de Rick and Morty */
+}
+
+/* Estilos para la edad y otra información */
+p {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #00ccff; /* Un color azul similar al de Rick and Morty */
+}
+
+/* Estilos para un efecto de texto retro */
+.retro-text {
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-top: 20px;
+  color: #ff9900; /* Un color amarillo similar al de Rick and Morty */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Estilos para un borde con efecto de neón */
+.neon-border {
+  border: 2px solid #00ccff; /* Un color azul similar al de Rick and Morty */
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 204, 255, 0.8); /* Sombra estilo neón */
+}
+
+/* Estilos para un fondo degradado */
+.gradient-background {
+  background: linear-gradient(45deg, #ff9900, #00ccff); /* Degradado de colores amarillo y azul */
+}

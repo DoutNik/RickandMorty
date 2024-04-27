@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "nodemon ./src/index.js",
+    "test": "jest --detectOpenHandles"
+  },
+  "author": "Charly",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.11.3",
+    "sequelize": "^6.35.1",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
