@@ -11,6 +11,7 @@ import Login from "./views/login/login.jsx";
 import Register from "./views/register/register.jsx";
 import FavoritesPage from "./views/favorites/Favorites.jsx";
 import AboutPage from "./views/about/About.jsx";
+import SearchBar from "./components/searchBar/SearchBar.jsx";
 
 import "./App.css";
 import video from "./assets/backgrounds/videos/rainHouse.mp4";
@@ -92,7 +93,6 @@ function App() {
       setIsAuthenticated(false);
     }
   }, [isAuthenticated]);
-  console.log(isAuthenticated);
 
   async function searchHandler(id) {
     try {
@@ -163,6 +163,8 @@ function App() {
   }
 
   return (
+    <>
+    <SearchBar />
     <div className={`app ${location.pathname === "/home" ? "home" : ""}`}>
       {/* Renderiza el video solo en la ruta / */}
       {location.pathname === "/home" && (
@@ -178,7 +180,6 @@ function App() {
         location.pathname !== "/login" && (
           <Nav
             setAuth={setAuth}
-            onSearch={searchHandler}
             randomize={randomHandler}
             onSearchInputChange={handleSearchInputChange}
             isAddCharacterDisabled={isAddCharacterDisabled()}
@@ -221,6 +222,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
+    </>
   );
 }
 

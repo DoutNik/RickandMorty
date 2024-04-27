@@ -1,23 +1,25 @@
 import { useState } from "react";
-import {useDispatch} from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { sortById, filterByGender, reset } from "../../redux/action";
 
-import "./SearchBar.css"; // Importa el archivo CSS para SearchBar
+import style from "./SearchBar.module.css";
 import axios from "axios";
 
 export default function SearchBar({ onSearch }) {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
 
   const [id, setId] = useState("");
   const [characters, setCharacters] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchError, setSearchError] = useState("");
+  const [searchString, setSearchString] = useState("");
 
   async function searchHandler(id) {
     try {
-      // Validar el ID antes de realizar la solicitud
       if (!id || id < 1 || id > 826) {
         setSearchError("El ID debe estar entre 1 y 826");
         window.alert("El ID debe estar entre 1 y 826");
@@ -83,6 +85,29 @@ export default function SearchBar({ onSearch }) {
     dispatch(reset());
   }
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (
+      !location.pathname.includes("/mapa") &&
+      !location.pathname.includes("/dashboard")
+    ) {
+      navigate("/resultados");
+    }
+
+    try {
+      //const storePromise = dispatch(getStoreByName(searchString));
+      //const postPromise = dispatch(getPostByName(searchString));
+
+      //await Promise.all([storePromise, postPromise]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const vibrateDevice = () => {
+    window.navigator?.vibrate?.(20);
+  };
+
   
   const renderRandomButton = location.pathname === "/home" || location.pathname === "/favorites";
 
@@ -91,32 +116,51 @@ export default function SearchBar({ onSearch }) {
     return null;
   }
   return (
-    <div className="search-bar-container"> 
+    <>
+    <div className={style.searchBar}> 
+    <form onSubmit={handleSubmit}>
       <input
-        className="searchInput"
         type="search"
         id="searchInput"
         onChange={changeHandler}
-        value={id}
+        value={searchString}
         placeholder="Search Character"
       />
-      <div className="search-buttons">
+      <svg
+            onClick={handleSubmit}
+            width="17"
+            height="16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-labelledby="search"
+          >
+             <path
+              d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+              stroke="currentColor"
+              strokeWidth="1.333"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            ></path>
+          </svg>
         <button
-          className={`search-bar-button ${renderRandomButton && "random-button"}`} 
+        type="submit"
+          className={style.all}  
           onClick={() => onSearch(id)}
         >
           Add character
         </button>
-        {renderRandomButton && (
+      {/*   {renderRandomButton && (
           <button
-            className="search-bar-button random-button" 
+            className={style.all2}  
             onClick={getRandomCharacter}
           >
             Add random
           </button>
-        )}
-      </div>
-      <div>
+        )} */}
+      </form>
+    </div>
+      {/* <div>
       <label htmlFor="genderSelect">Filtrar por género:</label>
       <select placeholder="Gender" id="genderSelect" onChange={filterHandler}>
         {["Male", "Female", "unknown", "Genderless"].map((gender) => (
@@ -131,7 +175,7 @@ export default function SearchBar({ onSearch }) {
         <option value="descendente">Z ~ A order</option>
       </select>
       <button onClick={resetHandler}>Show all</button>
-    </div>
-    </div>
+    </div> */}
+    </>
   );
 }

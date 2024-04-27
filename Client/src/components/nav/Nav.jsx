@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "../searchBar/SearchBar.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import home from "../../assets/icons/navBar/home.png";
+import heart from "../../assets/icons/navBar/heart.png";
+import about from "../../assets/icons/navBar/about.png";
+import salir from "../../assets/icons/navBar/salir.png";
 
 import logo from "../../assets/logos/Rick-Morty.gif";
-import "./Nav.css";
+import style from "./Nav.module.css";
 
 export default function Nav({ setAuth, onSearch }) {
   const { logout } = useAuth0();
+
+  const [isActive, setIsActive] = useState();
 
   const allLogOut = () => {
     Swal.fire({
@@ -33,48 +39,66 @@ export default function Nav({ setAuth, onSearch }) {
     window.navigator?.vibrate?.(20);
   };
 
+  const handleActive = (e) => {
+    setIsActive(e);
+  };
+
   return (
-    <div className="navbar">
+    <div className={style.navbar}>
+      <Link to="/home" className={style.toHome}>
+        <div className={style.logo}>
+          <img src={logo} alt="logo"></img>
+        </div>
+      </Link>
+      <div className={style.search}></div>
+
+      <div className={style.directAccess}>
         <Link to="/home">
-          <img src={logo} className="logo" alt="logo"></img>
+          <button
+            onClick={() => {
+              vibrateDevice();
+              handleActive(1);
+            }}
+            className={isActive === 1 ? style.active : ""}
+          >
+            <img width="28" height="28" src={home} alt="home" />
+          </button>
         </Link>
-      <div className="directAccess">
-        <ul>
-          <li>
-            <Link className="text" to="/home">
-              Home
-            </Link>
-          </li>
 
-          <li>
-            <Link className="text" to="/About">
-              About
-            </Link>
-          </li>
+        <Link to="/favorites">
+          <button
+            onClick={() => {
+              vibrateDevice();
+              handleActive(2);
+            }}
+            className={isActive === 2 ? style.active : ""}
+          >
+            <img width="28" height="28" src={heart} alt="favoritos" />
+          </button>
+        </Link>
 
-          <li>
-            <Link className="text" to="/favorites">
-              Favorites
-            </Link>
-          </li>
+        <Link to="/About">
+          <button
+            onClick={() => {
+              vibrateDevice();
+              handleActive(3);
+            }}
+            className={isActive === 3 ? style.active : ""}
+          >
+            <img width="28" height="28" src={about} alt="about" />
+          </button>
+        </Link>
 
-          <li>
-            <span className="text">
-              <span
-                className="logout"
-                onClick={() => {
-                  allLogOut();
-                  vibrateDevice();
-                }}
-              >
-                Logout
-              </span>
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <SearchBar onSearch={onSearch} />
+        <button
+          onClick={() => {
+            vibrateDevice();
+            handleActive(4);
+            allLogOut();
+          }}
+          className={isActive === 4 ? style.active : ""}
+        >
+          <img width="28" height="28" src={salir} alt="salir" />
+        </button>
       </div>
     </div>
   );
