@@ -1,0 +1,225 @@
+/* Login.css */
+
+.login-container {
+  background-image: url('C:\Users\BANGHO\OneDrive\Escritorio\PROJECTS\RickandMorty\Client\src\assets\backgrounds\1375401-rick-and-morty-tv-series-portal-gun-4k-pc-wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.login {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  background-image: url('C:\Users\BANGHO\OneDrive\Escritorio\PROJECTS\RickandMorty\Client\src\assets\backgrounds\1375401-rick-and-morty-tv-series-portal-gun-4k-pc-wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.disabled {
+  margin-top: 20px;
+  border: none;
+  color: #888;
+  background-color: #ccc;
+  width: 110px;
+  height: 40px;
+  border-radius: 5px;
+  justify-self: center;
+  box-shadow: 0px 5px 10px rgba(128, 128, 128, 0.2);
+}
+
+.container {
+  display: grid;
+  justify-self: center;
+  align-self: center;
+  width: 250px;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.container img {
+  width: 100px;
+  justify-self: center;
+}
+
+.container .buttons {
+  display: grid;
+}
+
+.container .form form {
+  display: grid;
+  margin-bottom: 20px;
+}
+
+.container h2 {
+  color: black;
+  margin-bottom: -10px;
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.container input {
+  height: 30px;
+  width: 200px;
+  border-radius: 5px;
+  margin-top: 20px;
+  border: 1px solid grey;
+  padding-left: 10px;
+  outline: none;
+  justify-self: center;
+}
+
+.container span {
+  font-size: 16px;
+  display: grid;
+  color: black;
+}
+
+
+.error {
+  margin-top: 10px;
+  font-size: 16px;
+  color: red;
+}
+
+.password {
+  display: grid;
+  position: relative;
+}
+
+.password button {
+  position: absolute;
+  right: 20px;
+  top: 25px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  align-self: center;
+}
+
+.password img {
+  width: 20px;
+  height: 20px;
+  align-self: center;
+}
+
+.container .iniciar {
+  margin-top: 20px;
+  border: none;
+  color: rgb(4, 0, 0);
+  background-color: rgb(21, 232, 17);
+  font-weight: 700;
+  width: 110px;
+  height: 40px;
+  border-radius: 5px;
+  justify-self: center;
+  box-shadow: 0px 5px 10px rgba(128, 128, 128, 0.2);
+}
+
+.container .register {
+  font-size: 16px;
+  width: 120px;
+  height: 25px;
+  justify-self: center;
+  align-content: center;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.recover {
+  margin-top: 20px;
+}
+
+.modal {
+  display: grid;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('C:\Users\BANGHO\OneDrive\Escritorio\PROJECTS\RickandMorty\Client\src\assets\backgrounds\1375401-rick-and-morty-tv-series-portal-gun-4k-pc-wallpaper.jpg');
+  background-position: center;
+  background-size: cover;
+  z-index: 8;
+}
+
+.modal h2 {
+  font-style: italic;
+  justify-self: center;
+  align-self: flex-start;
+  margin: 0;
+  margin-top: -120px;
+  margin-left: 200px;
+  color: white;
+  font-size: 16px;
+  align-self: flex-start;
+  animation: reveal 1000ms ease-in forwards;
+}
+
+@keyframes slide {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1.5);
+  }
+}
+
+.modal img {
+  width: 150px;
+  align-self: center;
+  justify-self: center;
+  opacity: 80%;
+}
+
+.modal .img {
+  width: 250px;
+  align-self: center;
+  justify-self: center;
+  animation: slide 800ms ease-in forwards;
+  opacity: 70%;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .footer {
+    bottom: 15px;
+  }
+
+  .modal h2 {
+    font-style: italic;
+    justify-self: center;
+    align-self: flex-start;
+    margin: 0;
+    margin-top: -75px;
+    margin-left: 150px;
+    color: white;
+    font-size: 10px;
+    align-self: flex-start;
+    animation: reveal 800ms ease-in forwards;
+  }
+
+  .modal .img {
+    width: 150px;
+    align-self: center;
+    justify-self: center;
+  }
+}

@@ -1,5 +1,7 @@
 const {Router} = require("express");
 const getCharById = require("../controllers/characters/getCharById.js");
+const getCharByName = require("../controllers/characters/getCharByName.js");
+
 const postFav = require("../controllers/characters/favorites/postFav.js");
 const deleteFav = require("../controllers/characters/favorites/deleteFav.js")
 const loginHandler = require("../handlers/users/login.js")
@@ -26,6 +28,7 @@ mainRouter.get("/verify", authorization, async (req, res) => {
 //-------------CHARACTERS---------------
 mainRouter.get("/characters", getAllCharactersHandler);
 mainRouter.get("/character/:id", getCharById);
+mainRouter.get("/getCharacterByName/name", getCharByName)
 mainRouter.get("/allFavorites", getFavoritesHandler)
 mainRouter.post("/fav", postFav);
 mainRouter.delete("/fav/:id", deleteFav);

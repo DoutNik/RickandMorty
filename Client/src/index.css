@@ -1,4 +1,6 @@
 body {
+  min-width: 320px;
+  min-height: 100vh;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +12,42 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+button {
+  transition: 300ms;
+  cursor: pointer;
+}
+
+button:focus {
+  animation: push 0.3s ease-in-out;
+}
+
+@keyframes push {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.9;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  button.control-arrow {
+    display: none !important;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: rgb(30, 30, 30);
+    background-color: rgb(255, 255, 255);
+  }
 }

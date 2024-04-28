@@ -4,33 +4,34 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Characters",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       status: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       species: {
         type: DataTypes.STRING,
-        allowNull: false,
+      },
+      type: {
+        type: DataTypes.STRING,
       },
       gender: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
-      originName: {
+      origin_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true, // Permitir valores nulos si no se proporciona el origen
       },
-      locationName: {
+      location_name: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       image: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
     },
     { timestamps: false }

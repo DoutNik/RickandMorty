@@ -3,6 +3,7 @@ import {
   ADD_TO_FAVORITES,
   FILTER,
   REMOVE_FAVORITE,
+  GET_CHARACTER_BY_NAME,
   SORT,
   RESET,
   LOGIN_REQUEST,
@@ -11,13 +12,10 @@ import {
 } from "../redux/types";
 
 let initialState = {
+  characters: [],
+  charactersCopy: [],
   favorites: [],
   favoritesCopy: [],
-  auth: {
-    token: null,
-    loading: false,
-    error: null,
-  },
 };
 
 function rootReducer(state = initialState, action) {
@@ -37,6 +35,12 @@ function rootReducer(state = initialState, action) {
         favoritesCopy: [...action.payload],
       };
 
+    case GET_CHARACTER_BY_NAME:
+      return {
+        ...state,
+        characters: action.payload,
+      };
+
     case FILTER:
       return {
         ...state,
@@ -48,9 +52,13 @@ function rootReducer(state = initialState, action) {
     case SORT:
       let sorted;
       if (action.payload === "ascendente") {
-        sorted = [...state.favoritesCopy].sort((a, b) => (a.id > b.id ? 1 : -1));
+        sorted = [...state.favoritesCopy].sort((a, b) =>
+          a.id > b.id ? 1 : -1
+        );
       } else if (action.payload === "descendente") {
-        sorted = [...state.favoritesCopy].sort((a, b) => (b.id > a.id ? 1 : -1));
+        sorted = [...state.favoritesCopy].sort((a, b) =>
+          b.id > a.id ? 1 : -1
+        );
       }
 
       return {

@@ -5,6 +5,7 @@ import {
   ADD_TO_FAVORITES,
   REMOVE_FAVORITE,
   SORT,
+  GET_CHARACTER_BY_NAME,
   FILTER,
   RESET,
   REGISTER,
@@ -62,6 +63,17 @@ export const removeFavorite = (id) => {
 };
 
 // --------------------------------------   FILTERS  -------------------------------------------------
+
+export function getCharByName(name) {
+  //const storedCity = localStorage.getItem("selectedCity");
+  return async function (dispatch) {
+    const response = await axios(`/getCharacterByName/name?name=${name}`);
+    return dispatch({
+      type: GET_CHARACTER_BY_NAME,
+      payload: response,
+    });
+  };
+}
 
 export function filterByGender(gender) {
   return {

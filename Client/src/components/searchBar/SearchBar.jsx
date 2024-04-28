@@ -1,34 +1,36 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { sortById, filterByGender, reset } from "../../redux/action";
+import { sortById, filterByGender, reset, getCharByName } from "../../redux/action";
 
 import style from "./SearchBar.module.css";
-import axios from "axios";
 
 export default function SearchBar({ onSearch }) {
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
-
-  const [id, setId] = useState("");
-  const [characters, setCharacters] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchError, setSearchError] = useState("");
   const [searchString, setSearchString] = useState("");
 
-  async function searchHandler(id) {
+  function handleChange(event) {
+    setSearchString(event.target.value);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
     try {
-      if (!id || id < 1 || id > 826) {
-        setSearchError("El ID debe estar entre 1 y 826");
-        window.alert("El ID debe estar entre 1 y 826");
-        return;
-      }
+      const storePromise = dispatch(getCharByName(searchString));
+      //const postPromise = dispatch(getPostByName(searchString));
+
+     // await Promise.all([storePromise, postPromise]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
-      setSearchError(""); // Borrar el error si el ID es válido
   
-      const { data } = await axios(
+/*       const { data } = await axios(
         `/character/${id}`
       );
   
@@ -45,7 +47,7 @@ export default function SearchBar({ onSearch }) {
     } catch (error) {
       setSearchError(error.message); // Mostrar el mensaje de error de búsqueda
     }
-  }
+  } */
 
   function randomHandler() {
     let memoria = [];
@@ -56,7 +58,7 @@ export default function SearchBar({ onSearch }) {
 
     if (!memoria.includes(randomId)) {
       memoria.push(randomId);
-      searchHandler(randomId);
+      //searchHandler(randomId);
     } else {
       alert("What a coincidence... this dumb is alredy here");
       return;
@@ -64,13 +66,13 @@ export default function SearchBar({ onSearch }) {
   }
 
   function changeHandler(event) {
-    setId(event.target.value);
+    //setId(event.target.value);
   }
 
   function getRandomCharacter() {
     const randomId = Math.floor(Math.random() * 826) + 1;
     onSearch(randomId);
-    setId("");
+   // setId("");
   }
 
   function sortHandler(event) {
@@ -120,8 +122,7 @@ export default function SearchBar({ onSearch }) {
     <div className={style.searchBar}> 
     <form onSubmit={handleSubmit}>
       <input
-        type="search"
-        id="searchInput"
+        type="text"
         onChange={changeHandler}
         value={searchString}
         placeholder="Search Character"
@@ -146,7 +147,7 @@ export default function SearchBar({ onSearch }) {
         <button
         type="submit"
           className={style.all}  
-          onClick={() => onSearch(id)}
+         // onClick={() => onSearch(id)}
         >
           Add character
         </button>

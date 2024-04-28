@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/action";
 import { validateEmail, validatePassword } from "./validations";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
+import passShow from "../../assets/icons/login/passShow.png";
+
+import style from "./login.module.css";
 
 const Login = ({ setAuth }) => {
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
   const auth = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
@@ -65,62 +70,97 @@ const Login = ({ setAuth }) => {
         });
         window.location.href = "/home";
       } else {
-        if (
-          response?.response &&
-          response?.response?.data?.error
-        ) {
-          setErrors(`${response.response.data.error}`);
+        const error = response?.response?.data?.error
+        if (error && error === "The email entered does not exist in our database") {
+          setErrors("The email entered does not exist in our database.<br>Please try another one or register a new one.");
+
+        } else if(error && error === "Wrong password"){
+          setErrors("That's the wrong password")
         }
       }
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const errorLines = error.split('<br>').map((line, index) => (
+    <div key={index}>{line}</div>
+  ));
+
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <label className="input-label">
-          E-mail:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.email && (
-            <span className="error">{formErrors.email}</span>
-          )}
-        </label>
-        <label className="input-label">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.password && (
-            <span className="error">{formErrors.password}</span>
-          )}
-        </label>
-        {error && (
-          <div className="error">
-            <p>{error}</p>
+    <>
+      <div className={style.login}>
+        <motion.div
+          className={style.container}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div>
+            <h2>Iniciar sesión</h2>
           </div>
-        )}
-        <button type="submit" disabled={auth.loading}>
-          {auth.loading ? "Loging in..." : "Log-in"}
-        </button>
-        {auth.error && <p className="error-message">Error: {auth.error}</p>}
-        <p className="account-cuestion">
-          ¿Don't have an account?{" "}
-          <Link to="/register" className="register-link">
-            <button>Register here</button>
-          </Link>
-        </p>
-      </form>
-    </div>
+
+          <div className={style.form}>
+            <form>
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email..."
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {formErrors.email && (
+                <span className="error">{formErrors.email}</span>
+              )}
+
+              <div className={style.password}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password..."
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <button type="button" onClick={togglePasswordVisibility}>
+                  <img src={passShow} alt="passShow" />
+                </button>
+              </div>
+
+              {formErrors.password && (
+                <span className="error">{formErrors.password}</span>
+              )}
+
+              {error && <div className={style.error}>{errorLines}</div>}
+
+              <button onClick={handleSubmit} className={style.iniciar}>
+                Log-in
+              </button>
+            </form>
+          </div>
+
+          <div className={style.buttons}>
+            ¿Don't have an account?{" "}
+            <Link to="/register" className={style.register}>
+              <button>Register here</button>
+            </Link>
+          </div>
+          <div className={style.buttons}>
+            <span className={style.recover}>
+              ¿Olvidaste la contraseña?
+              <Link to="/forgotpassword" className={style.register}>
+                Recuperar
+              </Link>
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </>
   );
 };
 

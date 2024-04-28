@@ -10,7 +10,6 @@ module.exports = async (req, res, next) => {
     }
 
     const payload = jwt.verify(jwtToken, process.env.JWTSECRET);
-    console.log("Payload del token:", payload); // Imprimir el payload decodificado del token en la consola
 
     req.body.user = payload.user;
 

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SearchBar from "../searchBar/SearchBar.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";

@@ -17,6 +17,8 @@ const validateEmail = (email) => {
 const validatePassword = (password) => {
   if (!password) {
     return 'Password is required';
+  } else if (password.length < 6) {
+    return "The password should contain 6 digits"
   }
 
   // Puedes agregar más reglas de validación para la fortaleza de la contraseña si es necesario

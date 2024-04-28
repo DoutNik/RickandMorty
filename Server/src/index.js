@@ -2,7 +2,11 @@ const app = require("./app");
 const PORT = 3001;
 const {conn}=require('../DB_connection')
 
-conn.sync()
+
+//const apiToDB = require("../API-to-DB.js")
+
+
+conn.sync({ alter: true })
 .then(()=>{
 console.log("Database synchronized successfully");
   

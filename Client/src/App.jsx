@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import Cards from "./components/cards/Cards.jsx";
+import Home from "./views/Home/Home.jsx";
 import Nav from "./components/nav/Nav.jsx";
 import DetailPage from "./views/detail/Detail.jsx";
 import ErrorPage from "./views/error/Error.jsx";
@@ -14,7 +14,6 @@ import AboutPage from "./views/about/About.jsx";
 import SearchBar from "./components/searchBar/SearchBar.jsx";
 
 import "./App.css";
-import video from "./assets/backgrounds/videos/rainHouse.mp4";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { saveUserData } from "./redux/action.js";
@@ -37,7 +36,6 @@ function App() {
 
   useEffect(() => {
     const token = Cookies.get("token");
-    console.log(token);
     if (token) {
       axios
         .get("/verify", {
@@ -118,7 +116,7 @@ function App() {
         throw new Error("¡No hay personajes con este ID!");
       }
     } catch (error) {
-      setSearchError(error.message); // Mostrar el mensaje de error de búsqueda
+      setSearchError(error.message);
     }
   }
 
@@ -164,19 +162,10 @@ function App() {
 
   return (
     <>
-    <SearchBar />
-    <div className={`app ${location.pathname === "/home" ? "home" : ""}`}>
-      {/* Renderiza el video solo en la ruta / */}
-      {location.pathname === "/home" && (
-        <div>
-          <video autoPlay loop muted>
-            <source src={video} type="video/mp4" />
-          </video>
-        </div>
-      )}
-
-      {/* Renderiza la barra de navegación en todas las rutas, excepto "/" */}
-      {location.pathname !== "/register" &&
+    {isAuthenticated ? 
+    <SearchBar /> : null
+  }
+      {isAuthenticated && location.pathname !== "/register" &&
         location.pathname !== "/login" && (
           <Nav
             setAuth={setAuth}
@@ -186,16 +175,15 @@ function App() {
           />
         )}
 
-      {/* Renderiza las rutas */}
-      <Routes>
-      <Route path="/" element={isAuthenticated ? <Cards characters={characters}/> : <Login setAuth={setAuth}/>}></Route>
+     <Routes>
+      <Route path="/" element={isAuthenticated ? <Home characters={characters}/> : <Login setAuth={setAuth}/>}></Route>
         <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/register" element={<Register setAuth={setAuth} />} />
         <Route
           path="/home"
           element={
             isAuthenticated ? (
-              <Cards characters={characters} onClose={closeHandler} />
+              <Home characters={characters} onClose={closeHandler} />
             ) : (
               <Login setAuth={setAuth} />
             )
@@ -221,7 +209,6 @@ function App() {
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </div>
     </>
   );
 }
