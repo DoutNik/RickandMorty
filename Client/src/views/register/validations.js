@@ -44,8 +44,8 @@ export const validateEmail = (email) => {
 export const validatePassword = (password) => {
   if (!password.trim()) {
     return 'La contraseña es obligatoria';
-  } else if (password.length < 5 || password.length > 20) {
-    return 'La contraseña debe tener entre 5 y 20 caracteres';
+  } else if (password.length < 6 || password.length > 20) {
+    return 'La contraseña debe tener entre 6 y 20 caracteres';
   }
   return '';
 };

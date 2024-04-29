@@ -4,7 +4,10 @@ import { registerUser } from "../../redux/action";
 import * as validation from "./validations";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import "./register.css";
+import { motion } from "framer-motion";
+import Logo from "../../assets/logos/rickandmortyLogo.png";
+import passShow from "../../assets/icons/login/passShow.png"
+import style from "./register.module.css";
 
 const Register = ({ setAuth }) => {
   const dispatch = useDispatch();
@@ -15,6 +18,7 @@ const Register = ({ setAuth }) => {
     email: "",
     password: "",
     confirmPassword: "",
+    disabled: false,
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -22,9 +26,11 @@ const Register = ({ setAuth }) => {
     nickname: "",
     email: "",
     password: "",
+    confirmPassword: ""
   });
 
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
   useEffect(() => {
     setConfirmPasswordError(
       validation.validateConfirmPassword(
@@ -33,6 +39,17 @@ const Register = ({ setAuth }) => {
       )
     );
   }, [formData.password, formData.confirmPassword]);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleShowPassword1 = () => {
+    setShowPassword1(!showPassword1);
+  };
 
   const [formValid, setFormValid] = useState(false);
   const isFormValid = () => {
@@ -51,6 +68,10 @@ const Register = ({ setAuth }) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
+    }));
+    setFormErrors((prevFormErrors) => ({
+      ...prevFormErrors,
+      [name]: validation.validateConfirmPassword(formData.password, value)
     }));
     setConfirmPasswordError(
       validation.validateConfirmPassword(formData.password, value)
@@ -138,112 +159,158 @@ const Register = ({ setAuth }) => {
           });
         } else if (
           error.response &&
-          error.response.data ===
-          "Nickname already registered"
+          error.response.data === "Nickname already registered"
         ) {
           Swal.fire({
             icon: "warning",
             title: "Nickname in use",
-            text: "The nickname" + `${formData.nickname}` + "is already in use. Please choose another one.",
+            text:
+              "The nickname" +
+              `${formData.nickname}` +
+              "is already in use. Please choose another one.",
             confirmButtonColor: "#6495ed",
           });
         } else if (
           error.response &&
-          error.response.data ===
-            "Username already registered"
+          error.response.data === "Username already registered"
         ) {
           Swal.fire({
             icon: "warning",
             title: "Username already registered",
-            text: "The username" + `${formData.name}` + "is already in use. Please choose another one.",
+            text:
+              "The username" +
+              `${formData.name}` +
+              "is already in use. Please choose another one.",
+            confirmButtonColor: "#6495ed",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error al registrar",
+            text: "Hubo un error al registrar el usuario. Por favor, inténtalo de nuevo.",
             confirmButtonColor: "#6495ed",
           });
         }
+        setFormData({
+          ...formData,
+          disabled: false,
+        });
+        return;
       }
     }
   };
 
-  return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <label className="input-label">
-          Full name:
-          <input
-            className="register-input"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.name && <span className="error">{formErrors.name}</span>}
-        </label>
-        <label className="input-label">
-          Nickname:
-          <input
-            className="register-input"
-            type="text"
-            name="nickname"
-            value={formData.nickname}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.nickname && (
-            <span className="error">{formErrors.nickname}</span>
-          )}
-        </label>
-        <label className="input-label">
-          E-mail:
-          <input
-            className="register-input"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.email && (
-            <span className="error">{formErrors.email}</span>
-          )}
-        </label>
-        <label className="input-label">
-          Password:
-          <input
-            className="register-input"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          {formErrors.password && (
-            <span className="error">{formErrors.password}</span>
-          )}
-        </label>
-        <label className="input-label">
-          Confirm password:
-          <input
-            className="register-input"
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            required
-          />
-          {confirmPasswordError && (
-            <span className="error">{confirmPasswordError}</span>
-          )}
-        </label>
+  function isSubmitDisabled() {
+    return Object.values(formErrors).some((error) => error !== "" || error !== "");
+  }
 
-        <button
-          className={`register-button ${!formValid ? "disabled-button" : ""}`}
-          type="submit"
-          disabled={!formValid}
+  return (
+    <>
+      <div className={style.view}>
+        <motion.div
+          className={style.container}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
         >
-          Registrarse
-        </button>
-      </form>
-    </div>
+          <div className={style.title}>
+            <h2>Register here</h2>
+          </div>
+          <img src={Logo} className={style.logo} />
+
+          <div className={style.form}>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full name..."
+                  value={formData.name}
+                  onChange={handleChange}
+                  disabled={formData.disabled}
+                  required
+                />
+                {formErrors.name && (
+                  <span className={style.error}>{formErrors.name}</span>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="nickname"
+                  placeholder="Nickname..."
+                  value={formData.nickname}
+                  onChange={handleChange}
+                  disabled={formData.disabled}
+                  required
+                />
+                {formErrors.nickname && (
+                  <span className={style.error}>{formErrors.nickname}</span>
+                )}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email..."
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={formData.disabled}
+                  required
+                />
+                {formErrors.email && (
+                  <span className={style.error}>{formErrors.email}</span>
+                )}
+              </div>
+              <div className={style.passShow}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password..."
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={formData.disabled}
+                  required
+                />
+                <button type="button" onClick={handleShowPassword}>
+                  <img src={passShow} alt="passShow" />
+                </button>
+                {formErrors.password && (
+                  <span className={style.error}>{formErrors.password}</span>
+                )}
+              </div>
+              <div className={style.passShow}>
+                <input
+                  type={showPassword1 ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm password..."
+                  value={formData.confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  disabled={formData.disabled}
+                  required
+                />
+                   <button type="button" onClick={handleShowPassword1}>
+                  <img src={passShow} alt="passShow" />
+                </button>
+                {confirmPasswordError && (
+                  <span className={style.error}>{confirmPasswordError}</span>
+                )}
+              </div>
+              <button
+                className={
+                  isSubmitDisabled()
+                    ? `${style.register} ${style.buttonDisabled}`
+                    : style.register
+                }
+                disabled={isSubmitDisabled()}
+                type="submit"
+              >
+                Register
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </div>
+    </>
   );
 };
 
