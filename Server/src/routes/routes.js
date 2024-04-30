@@ -4,6 +4,10 @@ const authorization = require("../middleware/authorization.js");
 //______________________PERSONAJES__________________________-
 const getCharById = require("../controllers/characters/getCharById.js");
 const getCharByName = require("../controllers/characters/getCharByName.js");
+//______________________EPISODES____________________________-
+const getAllEpisodes = require("../controllers/episodes/getAllEpisodes.js");
+//______________________LOCATIONS____________________________-
+const getAllLocations = require("../controllers/locations/getAllLocations.js");
 //______________________FAVORITOS___________________________-
 const postFav = require("../controllers/characters/favorites/postFav.js");
 const deleteFav = require("../controllers/characters/favorites/deleteFav.js")
@@ -12,7 +16,7 @@ const { getFavoritesHandler } = require("../handlers/characters/favorites/favori
 const loginHandler = require("../handlers/users/login.js")
 const { registerHandler } = require('../handlers/users/register.js');
 const { getAllCharactersHandler } = require("../handlers/characters/getAllCharacters.js")
-const  verifyIdTokenHandler  = require("../handlers/users/verifyIdToken.js")
+const  verifyIdTokenHandler  = require("../handlers/users/verifyIdToken.js");
 
 const mainRouter = Router();
 
@@ -32,6 +36,11 @@ mainRouter.get("/verify", authorization, async (req, res) => {
 mainRouter.get("/getAllCharacters", getAllCharactersHandler);
 mainRouter.get("/character/:id", getCharById);
 mainRouter.get("/getCharacterByName/:name", getCharByName)
+//-------------EPISODES-----------------
+mainRouter.get("/getAllEpisodes", getAllEpisodes)
+//-------------LOCATIONS-----------------
+mainRouter.get("/getAllLocations", getAllLocations)
+//-------------FAVORITES----------------
 mainRouter.get("/allFavorites", getFavoritesHandler)
 mainRouter.post("/fav", postFav);
 mainRouter.delete("/fav/:id", deleteFav);

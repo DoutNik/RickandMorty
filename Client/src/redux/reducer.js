@@ -10,11 +10,17 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   GET_ALL_CHARACTERS,
+  GET_ALL_EPISODES,
+  GET_ALL_LOCATIONS,
 } from "../redux/types";
 
 let initialState = {
   characters: [],
   charactersCopy: [],
+  episodes: [],
+  episodesCopy: [],
+  locations: [],
+  locationsCopy: [],
   favorites: [],
   favoritesCopy: [],
 };
@@ -28,6 +34,7 @@ function rootReducer(state = initialState, action) {
         favoritesCopy: action.payload,
       };
 
+    //_____________________________________FAVORITES
     case ADD_TO_FAVORITES:
     case REMOVE_FAVORITE:
       return {
@@ -36,13 +43,29 @@ function rootReducer(state = initialState, action) {
         favoritesCopy: [...action.payload],
       };
 
-    case GET_CHARACTER_BY_NAME:
+    //_____________________________________CHARACTERS
+    case GET_ALL_CHARACTERS:
       return {
         ...state,
         characters: action.payload,
       };
 
-    case GET_ALL_CHARACTERS:
+    //_____________________________________EPISODES
+    case GET_ALL_EPISODES:
+      return {
+        ...state,
+        episodes: action.payload,
+      };
+
+    //___________________________________LOCATIONS
+    case GET_ALL_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload,
+      };
+
+    //___________________________________FILTERS
+    case GET_CHARACTER_BY_NAME:
       return {
         ...state,
         characters: action.payload,
@@ -78,6 +101,8 @@ function rootReducer(state = initialState, action) {
         ...state,
         favoritesCopy: state.favorites,
       };
+
+    //_____________________________________________________AUTH
 
     case LOGIN_REQUEST:
       return { ...state, loading: true, error: null };

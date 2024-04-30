@@ -14,6 +14,8 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   USER_DATA,
+  GET_ALL_EPISODES,
+  GET_ALL_LOCATIONS,
 } from "./types";
 
 // --------------------------------------   FAVORITES  -------------------------------------------------
@@ -63,7 +65,7 @@ export const removeFavorite = (id) => {
   };
 };
 
-// --------------------------------------   FILTERS  -------------------------------------------------
+// --------------------------------------   CHARACTERS  -------------------------------------------------
 
 export function getAllCharacters() {
   return async function (dispatch) {
@@ -75,6 +77,29 @@ export function getAllCharacters() {
   };
 }
 
+// --------------------------------------   EPISODES  -------------------------------------------------
+export function getAllEpisodes() {
+  return async function (dispatch) {
+    const response = await axios(`/getAllEpisodes`);
+    return dispatch({
+      type: GET_ALL_EPISODES,
+      payload: response.data,
+    });
+  };
+}
+
+// --------------------------------------   LOCATIONS  -------------------------------------------------
+export function getAllLocations() {
+  return async function (dispatch) {
+    const response = await axios(`/getAllLocations`);
+    return dispatch({
+      type: GET_ALL_LOCATIONS,
+      payload: response.data,
+    });
+  };
+}
+
+// --------------------------------------   FILTERS  -------------------------------------------------
 export function getCharByName(name) {
   return async function (dispatch) {
     const response = await axios(`/getCharacterByName/${name}`);

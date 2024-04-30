@@ -16,7 +16,7 @@ import SearchBar from "./components/searchBar/SearchBar.jsx";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAllCharacters, saveUserData } from "./redux/action.js";
+import { getAllCharacters, getAllEpisodes, getAllLocations, saveUserData } from "./redux/action.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +73,8 @@ function App() {
                   })
                 );
                 dispatch(getAllCharacters())
+                dispatch(getAllEpisodes())
+                dispatch(getAllLocations())
               })
               .catch((userDataError) => {
                 console.error(
