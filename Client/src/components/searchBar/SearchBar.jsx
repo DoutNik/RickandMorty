@@ -1,78 +1,75 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { sortById, filterByGender, reset, getCharByName } from "../../redux/action";
 
 import style from "./SearchBar.module.css";
 
 export default function SearchBar({ onSearch }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const [searchString, setSearchString] = useState("");
+  const characters = useSelector((state) => state.characters)
+  const [filteredCharacters, setFilteredCharacters] = useState([]);
+
 
   function handleChange(event) {
-    setSearchString(event.target.value);
+    const searchText = event.target.value;
+    setSearchString(searchText);
+    filterCharacters(searchText);
+  }
+
+  function filterCharacters(searchText) {
+    if (searchText.trim() === "") {
+      setFilteredCharacters([]);
+    } else {
+      const filtered = characters.filter((character) =>
+        character.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredCharacters(filtered);
+    }
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    try {
-      const storePromise = dispatch(getCharByName(searchString));
-      //const postPromise = dispatch(getPostByName(searchString));
-
-     // await Promise.all([storePromise, postPromise]);
-    } catch (error) {
-      console.log(error);
-    }
   }
-  
-  
-/*       const { data } = await axios(
-        `/character/${id}`
-      );
-  
-      if (data.id) {
-        // Verificar si el personaje ya está en la lista antes de agregarlo
-        if (!characters.some((character) => character.id === data.id)) {
-          setCharacters((oldChars) => [...oldChars, data]);
-        } else {
-          alert("Ese personaje ya fue agregado");
-        }
-      } else {
-        throw new Error("¡No hay personajes con este ID!");
-      }
-    } catch (error) {
-      setSearchError(error.message); // Mostrar el mensaje de error de búsqueda
-    }
-  } */
+
+  function renderSearchResults() {
+    return (
+      <div className={style.list}>
+        <ul>
+          {filteredCharacters.map((character) => (
+            <div className={style.element} key={character.id}>
+              <li>{character.name}</li>
+              <img
+                src={character.image}
+                alt={character.name}
+                className={style.charImg}
+              />
+            </div>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 
   function randomHandler() {
     let memoria = [];
-
     let randomId = (Math.random() * 826).toFixed();
-
     randomId = Number(randomId);
-
     if (!memoria.includes(randomId)) {
       memoria.push(randomId);
-      //searchHandler(randomId);
     } else {
       alert("What a coincidence... this dumb is alredy here");
       return;
     }
   }
 
-  function changeHandler(event) {
-    //setId(event.target.value);
-  }
-
   function getRandomCharacter() {
     const randomId = Math.floor(Math.random() * 826) + 1;
     onSearch(randomId);
-   // setId("");
   }
 
   function sortHandler(event) {
@@ -87,25 +84,6 @@ export default function SearchBar({ onSearch }) {
     dispatch(reset());
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (
-      !location.pathname.includes("/mapa") &&
-      !location.pathname.includes("/dashboard")
-    ) {
-      navigate("/resultados");
-    }
-
-    try {
-      //const storePromise = dispatch(getStoreByName(searchString));
-      //const postPromise = dispatch(getPostByName(searchString));
-
-      //await Promise.all([storePromise, postPromise]);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const vibrateDevice = () => {
     window.navigator?.vibrate?.(20);
   };
@@ -116,14 +94,15 @@ export default function SearchBar({ onSearch }) {
   if (!renderRandomButton) {
     
     return null;
-  }
+  
+}
   return (
     <>
     <div className={style.searchBar}> 
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        onChange={changeHandler}
+        onChange={handleChange}
         value={searchString}
         placeholder="Search Character"
       />
@@ -160,6 +139,7 @@ export default function SearchBar({ onSearch }) {
           </button>
         )} */}
       </form>
+      {filteredCharacters.length > 0 && searchString !== "" && renderSearchResults()}
     </div>
       {/* <div>
       <label htmlFor="genderSelect">Filtrar por género:</label>

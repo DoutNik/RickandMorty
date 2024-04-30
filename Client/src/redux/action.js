@@ -5,6 +5,7 @@ import {
   ADD_TO_FAVORITES,
   REMOVE_FAVORITE,
   SORT,
+  GET_ALL_CHARACTERS,
   GET_CHARACTER_BY_NAME,
   FILTER,
   RESET,
@@ -64,13 +65,22 @@ export const removeFavorite = (id) => {
 
 // --------------------------------------   FILTERS  -------------------------------------------------
 
-export function getCharByName(name) {
-  //const storedCity = localStorage.getItem("selectedCity");
+export function getAllCharacters() {
   return async function (dispatch) {
-    const response = await axios(`/getCharacterByName/name?name=${name}`);
+    const response = await axios(`/getAllCharacters`);
+    return dispatch({
+      type: GET_ALL_CHARACTERS,
+      payload: response.data,
+    });
+  };
+}
+
+export function getCharByName(name) {
+  return async function (dispatch) {
+    const response = await axios(`/getCharacterByName/${name}`);
     return dispatch({
       type: GET_CHARACTER_BY_NAME,
-      payload: response,
+      payload: response.data,
     });
   };
 }

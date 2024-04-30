@@ -16,7 +16,7 @@ import SearchBar from "./components/searchBar/SearchBar.jsx";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { saveUserData } from "./redux/action.js";
+import { getAllCharacters, saveUserData } from "./redux/action.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,6 +72,7 @@ function App() {
                     FCMtoken: userDataResponse.data.FCMtoken,
                   })
                 );
+                dispatch(getAllCharacters())
               })
               .catch((userDataError) => {
                 console.error(

@@ -1,4 +1,4 @@
-const getAllCharactersController = require("../../controllers/characters/getAllCharacters");
+const { getAllCharactersController } = require("../../controllers/characters/getAllCharacters");
 
 const getAllCharactersHandler = async (req, res) => {
   try {

@@ -9,6 +9,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  GET_ALL_CHARACTERS,
 } from "../redux/types";
 
 let initialState = {
@@ -36,6 +37,12 @@ function rootReducer(state = initialState, action) {
       };
 
     case GET_CHARACTER_BY_NAME:
+      return {
+        ...state,
+        characters: action.payload,
+      };
+
+    case GET_ALL_CHARACTERS:
       return {
         ...state,
         characters: action.payload,
