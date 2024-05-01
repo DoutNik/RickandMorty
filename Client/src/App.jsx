@@ -5,7 +5,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Home from "./views/Home/Home.jsx";
 import Nav from "./components/nav/Nav.jsx";
-import DetailPage from "./views/detail/Detail.jsx";
+import CharacterPage from "./views/detail/Character.jsx";
+import EpisodePage from "./views/detail/Episode.jsx";
+import LocationPage from "./views/detail/Location.jsx";
 import ErrorPage from "./views/error/Error.jsx";
 import Login from "./views/login/login.jsx";
 import Register from "./views/register/register.jsx";
@@ -16,7 +18,12 @@ import SearchBar from "./components/searchBar/SearchBar.jsx";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAllCharacters, getAllEpisodes, getAllLocations, saveUserData } from "./redux/action.js";
+import {
+  getAllCharacters,
+  getAllEpisodes,
+  getAllLocations,
+  saveUserData,
+} from "./redux/action.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,9 +79,9 @@ function App() {
                     FCMtoken: userDataResponse.data.FCMtoken,
                   })
                 );
-                dispatch(getAllCharacters())
-                dispatch(getAllEpisodes())
-                dispatch(getAllLocations())
+                dispatch(getAllCharacters());
+                dispatch(getAllEpisodes());
+                dispatch(getAllLocations());
               })
               .catch((userDataError) => {
                 console.error(
@@ -165,10 +172,9 @@ function App() {
 
   return (
     <>
-    {isAuthenticated ? 
-    <SearchBar /> : null
-  }
-      {isAuthenticated && location.pathname !== "/register" &&
+      {isAuthenticated ? <SearchBar /> : null}
+      {isAuthenticated &&
+        location.pathname !== "/register" &&
         location.pathname !== "/login" && (
           <Nav
             setAuth={setAuth}
@@ -178,15 +184,24 @@ function App() {
           />
         )}
 
-     <Routes>
-      <Route path="/" element={isAuthenticated ? <Home characters={characters}/> : <Login setAuth={setAuth}/>}></Route>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Home characters={characters} />
+            ) : (
+              <Login setAuth={setAuth} />
+            )
+          }
+        ></Route>
         <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/register" element={<Register setAuth={setAuth} />} />
         <Route
           path="/home"
           element={
             isAuthenticated ? (
-              <Home characters={characters} onClose={closeHandler} />
+              <Home characters={characters} />
             ) : (
               <Login setAuth={setAuth} />
             )
@@ -205,9 +220,21 @@ function App() {
           }
         />
         <Route
-          path="/detail/:id"
+          path="/character/:id"
           element={
-            isAuthenticated ? <DetailPage /> : <Login setAuth={setAuth} />
+            isAuthenticated ? <CharacterPage /> : <Login setAuth={setAuth} />
+          }
+        />
+        <Route
+          path="/episode/:id"
+          element={
+            isAuthenticated ? <EpisodePage /> : <Login setAuth={setAuth} />
+          }
+        />
+        <Route
+          path="/location/:id"
+          element={
+            isAuthenticated ? <LocationPage /> : <Login setAuth={setAuth} />
           }
         />
         <Route path="*" element={<ErrorPage />} />

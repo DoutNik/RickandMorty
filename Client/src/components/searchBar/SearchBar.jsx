@@ -1,18 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import {
-  sortById,
-  filterByGender,
-  reset,
-  getCharByName,
-} from "../../redux/action";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { sortById, filterByGender, reset } from "../../redux/action";
 
 import style from "./SearchBar.module.css";
 
 export default function SearchBar({ onSearch }) {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [searchString, setSearchString] = useState("");
   const characters = useSelector((state) => state.characters);
@@ -26,6 +22,7 @@ export default function SearchBar({ onSearch }) {
     filterSearch(searchText);
   }
 
+  //filter characters - episodes - locations
   function filterSearch(searchText) {
     if (searchText.trim() === "") {
       setFilteredSearch([]);
@@ -35,26 +32,25 @@ export default function SearchBar({ onSearch }) {
           character.name.toLowerCase().includes(searchText.toLowerCase())
         )
         .map((character) => ({ ...character, type: "character" }));
-      
+
       const filteredEpisodes = episodes
         .filter((episode) =>
           episode.name.toLowerCase().includes(searchText.toLowerCase())
         )
         .map((episode) => ({ ...episode, type: "episode" }));
-      
+
       const filteredLocations = locations
         .filter((location) =>
           location.name.toLowerCase().includes(searchText.toLowerCase())
         )
         .map((location) => ({ ...location, type: "location" }));
-  
-      // Combina todos los resultados filtrados en una sola lista
+
       const combinedResults = [
         ...filteredCharacters,
         ...filteredEpisodes,
-        ...filteredLocations
+        ...filteredLocations,
       ];
-  
+
       setFilteredSearch(combinedResults);
     }
   }
@@ -69,20 +65,26 @@ export default function SearchBar({ onSearch }) {
           {filteredSearch.map((result) => (
             <div className={style.element}>
               {result.type === "character" && (
-                <>
+                <Link to={`/character/${result.id}`}>
                   <li>{result.name}</li>
                   <img
                     src={result.image}
                     alt={result.name}
                     className={style.charImg}
                   />
-                </>
+                </Link>
               )}
               {result.type === "episode" && (
-                <li>{result.name} - Episode - {result.episode}</li>
+                <Link to={`/episode/${result.id}`}>
+                  <li>
+                    {result.name} - Episode - {result.episode}
+                  </li>
+                </Link>
               )}
               {result.type === "location" && (
-                <li>{result.name} - Location</li>
+                <Link to={`/location/${result.id}`}>
+                  <li>{result.name} - Location</li>
+                </Link>
               )}
             </div>
           ))}

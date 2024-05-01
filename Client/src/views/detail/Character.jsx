@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
 
 
-export default function DetailPage(){
+export default function CharacterPage(){
    const { id } = useParams();
    const navigate = useNavigate();
-    const [character, setCharacter] = useState([])
+   const characters = useSelector((state) => state.characters)
 
-    useEffect(() => {
-        axios(`/character/${id}`).then(({ data }) => {
-           if (data.name) {
-              setCharacter(data);
-           } else {
-              window.alert('Character ID not found');
-           }
-        });
-        return setCharacter({});
-     }, [id]);
+  const character = characters.find(character => character.id == id)
 
-     const goBack = () => {
-      navigate(-1);
-    };
+  const goBack = () => {
+    navigate(-1);
+  };
 
     return (
       <div>

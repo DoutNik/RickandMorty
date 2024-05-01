@@ -32,7 +32,6 @@ export default function Card(props) {
         setFav(true);
       }
     });
-    // eslint-disable-next-line
   }, [favorites]);
 
   function handleFavorite(character) {
